@@ -1,13 +1,19 @@
-import google.generativeai as genai
+from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 
-# Configure API key for Gemini
-genai.configure(api_key="AIzaSyCbx-aFssrg7PdNhUPBRSt1Ady6iNyLJVI")
-model = genai.GenerativeModel("gemini-1.5-flash-8b")
+app = Flask(__name__)
+CORS(app)
 
-def cyber_attack_response(query):
-    prompt = f"You are a cybersecurity expert. Explain about {query}. If it's an ongoing attack, suggest real-time mitigation steps."
-    response = model.generate_content(prompt)
-    return response.text if response else "I couldn't process your request."
+@app.route('/')
+def index():
+    return render_template('chat.html')  # Create chat.html inside 'templates' folder
 
-query = "What is a phishing attack?"
-print(cyber_attack_response(query))
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    query = data.get("query", "")
+    response = {"response": f"You asked: {query}"}
+    return jsonify(response)
+
+if __name__ == "__main__":
+    app.run(debug=True)

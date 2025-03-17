@@ -13,33 +13,57 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-PMJMSDJVFT');
-
+  </script>
+  
+  <script>
     let isOriginalColor = true;
     function changebackgroundcolor() 
     {
-    const container = document.querySelector('.music-icon');
-    if (isOriginalColor) 
-    {
-      container.style.background = 'linear-gradient(90deg, rgb(119,234,253) ,rgb(119,203,253))'; //new gradient
+      const container = document.querySelector('.music-icon');
+      if (isOriginalColor) 
+      {
+        container.style.background = 'linear-gradient(90deg, rgb(119,234,253) ,rgb(119,203,253))';
+      } 
+      else 
+      {
+        container.style.background = 'linear-gradient(90deg, rgb(84, 84, 84) ,  rgb(84, 84, 84))';
+      }
+      isOriginalColor = !isOriginalColor;
     } 
-    else 
-    {
-      container.style.background = 'linear-gradient(90deg, rgb(84, 84, 84) ,  rgb(84, 84, 84))';//prevoius gradient
-    }
-  isOriginalColor = !isOriginalColor;
-} 
-</script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PMJMSDJVFT"></script>
-  <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-
-      gtag('config', 'G-PMJMSDJVFT');
   </script>
+</head>
+
+<body>
+  <a href="main/award/badges.html">
+    <img src="public/reward.png" title="awards" alt="Reward Icon" class="reward-icon" id="reward-icon">
+  </a>
+  <div class="homepage">
+ <!-- Chatbot Section -->
+<div id="chatbot-container">
+  <input type="text" id="user-input" placeholder="Type your message..." />
+  <button onclick="sendMessage()">Send</button>
+  <p id="chatbot-response"></p>
+</div>
+
+<script>
+  function sendMessage() {
+      let userInput = document.getElementById("user-input").value;
+
+      fetch("http://127.0.0.1:5000/chat", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ query: userInput })
+      })
+      .then(response => response.json())
+      .then(data => {
+          document.getElementById("chatbot-response").innerText = data.response;
+      })
+      .catch(error => console.error("Error:", error));
+  }
+</script>
 
 </head>
 
